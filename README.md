@@ -1,2 +1,2 @@
 # dotfiles
-Windows dotfiles
+windows dots
