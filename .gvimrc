@@ -1,10 +1,6 @@
 set background=dark
 set guifont=Consolas:h10:cANSI
-
 set termguicolors
+set guicursor+=a:blinkon0
 
-"let ayucolor="mirage"
-"colorscheme ayu
-
-"colorscheme tomorrow-night
 colorscheme ahoka
