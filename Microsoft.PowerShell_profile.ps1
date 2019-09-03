@@ -1,7 +1,7 @@
 function prompt
 {
-   Write-host('[' + $(get-location) + ']') -NoNewline -foregroundcolor DarkGreen
-   Write-host(' >>') -NoNewline -foregroundcolor Red
+   Write-host('[' + $(get-location) + ']') -NoNewline -foregroundcolor DarkYellow `r`n
+   Write-host('>>') -NoNewline -foregroundcolor Red
    return " "
 }
 
@@ -23,9 +23,7 @@ function VS17()
 }
 
 # custom shortcuts
-function ncadir { cd C:\Projects\NCA\ }
-function kafkadir { cd C:\Kafka\kafka_2.11-2.0.0\bin\windows }
-function zkdir { cd C:\Kafka }
+function lsd { ls -Directory }
 
 VS17
 
