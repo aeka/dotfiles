@@ -10,15 +10,22 @@ endif
 " initialize vim-plug
 call plug#begin($HOME . '\\vimfiles\\plugged')
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'preservim/nerdtree'
 call plug#end()
+
+filetype indent plugin on
 
 let mapleader = ","
 let maplocalleader = ","
 
 " install fd via chocolatey
 let g:ctrlp_user_command = 'fd --type f --color=never "" %s'
-let g:ctrlp_use_caching = 0
+let g:ctrlp_use_caching = 1
+let g:ctrlp_cache_dir = $HOME . './.cache/ctrlp'
 
+set autoindent
+set smartindent
 set backspace=indent,eol,start
 set number
 set ruler
@@ -27,6 +34,10 @@ set hlsearch
 set ignorecase
 set smartcase
 set incsearch
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
 
 set swapfile
 

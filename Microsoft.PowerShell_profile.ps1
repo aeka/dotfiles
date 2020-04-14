@@ -1,34 +1,37 @@
-function prompt
-{
-   Write-host('[' + $(get-location) + ']') -NoNewline -foregroundcolor DarkYellow `r`n
-   Write-host('>>') -NoNewline -foregroundcolor Red
-   return " "
+function conda_init {
+    $condaEnv = $Env:CONDA_PROMPT_MODIFIER
+    $baseEnv = "(base)"
+    
+    if (!($condaEnv -match $baseEnv)) {
+        Write-Host($condaEnv) -NoNewline -foregroundcolor Magenta
+    }
 }
+function prompt {
+    conda_init
 
-function Get-Batchfile ($file) {
-    $cmd = "`"$file`" & set"
-    cmd /c $cmd | Foreach-Object {
-        $p, $v = $_.split('=')
-        Set-Item -path env:$p -value $v
+    $prompt = Write-Prompt "[" -ForegroundColor Cyan
+    $prompt += & $GitPromptScriptBlock # ensure posh-git is installed
+    $prompt += Write-Prompt "]" -ForegroundColor Cyan
+    $prompt += Write-Prompt "`r`n동" -ForegroundColor Red
+    if ($prompt) {
+        "$prompt "
+    }
+    else {
+        " "
     }
 }
 
-function VS17()
-{
-    $vs140comntools = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\Tools\"
-    $batchFile = [System.IO.Path]::Combine($vs140comntools, "VsDevCmd.bat")
-    Get-Batchfile $BatchFile
-
-    [System.Console]::Title = "Visual Studio 2017 Windows PowerShell"
+function poshgit_init {
+    Import-Module posh-git
+    $GitPromptSettings.DefaultPromptPath.ForegroundColor = 'Cyan'
+    $GitPromptSettings.BranchColor.ForegroundColor = 'Blue'
+    $GitPromptSettings.DefaultPromptSuffix = ""
+    $GitPromptSettings.BeforeStatus.ForegroundColor = 'Blue'
+    $GitPromptSettings.AfterStatus.ForegroundColor = 'Blue'
+    $GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $false
 }
 
-# custom shortcuts
 function lsd { ls -Directory }
+function rbo { ls bin,obj -recurse | rm -confirm -force -recurse }
 
-VS17
-
-# Chocolatey profile
-$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
-}
+poshgit_init
